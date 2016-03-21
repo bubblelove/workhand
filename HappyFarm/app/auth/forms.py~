@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 from ..models import User
 from flask.ext.wtf import Form
 from wtforms.validators import Required, Email, Regexp, EqualTo, Length
@@ -9,7 +8,7 @@ from wtforms import ValidationError
 
 class RegistrationForm(Form):
 	email = StringField('Email', validators=[Required(), Email(), Length(1,64)])
-	phonenum = IntegerField('Phonenumber', validators=[Required()])
+	phonenum = StringField('Phonenumber', validators=[Required()])
 	password = PasswordField('Password', validators=[Required(), EqualTo('password2', message='password must to be matched.')])
 	password2 = PasswordField('confirmed your password.', validators=[Required()])	
 	submit = SubmitField('Register')
@@ -27,5 +26,11 @@ class LoginForm(Form):
 	phonenum = IntegerField('Phonenumber', validators=[Required()])
 	password = PasswordField('Password', validators=[Required()])
 	remember_me = BooleanField('keep me logged in ')
-	verification_code = StringField(u'验证码', validators=[Required(), Length(4, 4, message=u'填写4位验证码')])	
+	#verification_code = StringField(u'验证码', validators=[Required(), Length(4, 4, message=u'填写4位验证码')])	
 	submit = SubmitField('Log In')
+
+class ChangePasswordForm(Form):
+	old_password = PasswordField('Old password', validators=[Required()])
+	password = PasswordField('New password', validators=[Required(), EqualTo('password2', message='passwords must match')])
+	password2 = PasswordField('Confirm new password', validators=[Required()])
+	submit = SubmitField('Update Password')

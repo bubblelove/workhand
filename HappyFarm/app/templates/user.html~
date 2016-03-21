@@ -1,0 +1,36 @@
+{% extends "bootstrap/base.html" %}
+{% block content %}
+{% block page_content %}
+{% if user == current_user %}
+<a class="btn btn-default" href="{{ url_for('main.edit_profile') }}">编辑资料</a>
+<a class="btn btn-default" href="{{ url_for('auth.change_password') }}">修改密码</a>
+<a class="btn btn-default" href="{{ url_for('main.safe') }}">账户安全</a>
+{% endif %}
+<div class="page-header">
+       <div class="profile-header">
+        <h1>{{ user.username }}</h1>
+	<p>{{ user.phonenum }}</p>
+        {% if user.realname or user.location %}
+        <p>
+            {% if user.realname %}{{ user.realname }}<br>{% endif %}
+            {% if user.location %}
+                From <a href="http://maps.google.com/?q={{ user.location }}">{{ user.location }}</a><br>
+            {% endif %}
+        </p>
+        {% endif %}
+        {% if current_user.is_administrator() %}
+        <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+        {% endif %}
+        {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+        <p>Member since {{ moment(user.member_since).format('L') }}.</p>
+	<p>性别:{{ user.sex }}</p>
+	<p>生日:{{ user.birthday}}</p>
+{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
+
+

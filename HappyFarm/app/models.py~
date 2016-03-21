@@ -40,7 +40,11 @@ class User(UserMixin, db.Model):
 	location = db.Column(db.String(128))
 	bussiness = db.Boolean
 	about_me = db.Column(db.Text())
+	sex = db.Column(db.String(64), default='male')
+	birthday = db.Column(db.DateTime)
 	member_since = db.Column(db.DateTime, default=datetime.utcnow)
+	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+	shippingadd = db.Column(db.String(128))
 	stores = db.relationship('Store', backref='host', lazy='dynamic')
 	comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
@@ -51,7 +55,6 @@ class User(UserMixin, db.Model):
 				self.role = Role.query.filter_by(permission=0xff).first()
 			if self.role is None:
 				self.role = Role.query.filter_by(default=True).first()
-		self.follow(self)
 	
 	def can(self, permissions):
 		return self.role is not None and \

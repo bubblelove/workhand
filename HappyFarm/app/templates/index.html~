@@ -1,0 +1,7 @@
+<a href="{{ url_for('auth.logout') }}">logout</a>
+{% if current_user.is_authenticated %}
+{{ current_user.username }}
+<a href="{{ url_for('main.user',id=current_user.id) }}">个人资料</a>
+{% else %}
+<a href="{{ url_for('auth.login') }}">登录</a> <a href="{{ url_for('auth.register') }}">注册</a>
+

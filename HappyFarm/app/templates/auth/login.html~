@@ -16,21 +16,7 @@
             {{ form.password(class="form-control", required=True) }}
         </div>
 
-<!--{% if form.errors.verification_code %}
-        <div class="form-group has-error required">
-            {{ form.verification_code.label(class="control-label") | safe }}
-            {{ form.verification_code(class="form-control", required=True) }}
-            {% for error in form.errors.verification_code %}
-                <p class="help-block">{{ error }}</p>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="form-group required">
-            {{ form.verification_code.label(class="control-label") | safe }}
-            <label class="control-label"><img src="{{ url_for('static', filename='image/code/'+code_img) }}"></label>
-            {{ form.verification_code(class="form-control", required=True) }}
-        </div>
-        {% endif %}-->
+
 
         {{ form.submit(class="btn btn-info submit") }}
     </form>

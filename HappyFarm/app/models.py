@@ -32,7 +32,7 @@ class User(UserMixin, db.Model):
 	__tablename__ = 'users'
 	id = db.Column(db.Integer, primary_key=True)
 	email = db.Column(db.String(64), unique=True)
-	phonenum = db.Column(db.Integer, unique=True)
+	phonenum = db.Column(db.String(64), unique=True)
 	username = db.Column(db.String(64), index=True)
 	password_hash = db.Column(db.String(128))
 	realname = db.Column(db.String(64))
@@ -40,7 +40,11 @@ class User(UserMixin, db.Model):
 	location = db.Column(db.String(128))
 	bussiness = db.Boolean
 	about_me = db.Column(db.Text())
+	sex = db.Column(db.String(64), default='male')
+	birthday = db.Column(db.DateTime)
 	member_since = db.Column(db.DateTime, default=datetime.utcnow)
+	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+	shippingadd = db.Column(db.String(128))
 	stores = db.relationship('Store', backref='host', lazy='dynamic')
 	comments = db.relationship('Comment', backref='author', lazy='dynamic')
 

@@ -1,0 +1,12 @@
+{% extends "bootstrap/base.html" %}
+{% block content %}
+{% block page_content %}
+	<p>Last seen: {{ moment(current_user.last_seen).format('L') }}.</p>
+	<p>非本人登录?<a href="{{ url_for('auth.change_password') }}">修改密码</a></p>
+{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
