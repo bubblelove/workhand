@@ -2,7 +2,8 @@
 {% block content %}
 {% block page_content %}
 	<p>Last seen: {{ moment(current_user.last_seen).format('L') }}.</p>
-	<p>非本人登录?<a href="{{ url_for('change_password') }}">修改密码</a></p>
+	<p>上次登录IP：{{ current_user.loginip }}</p>
+	<p>非本人登录?<a href="{{ url_for('auth.change_password') }}">修改密码</a></p>
 {% endblock %}
 {% endblock %}
 

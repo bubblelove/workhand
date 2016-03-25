@@ -1,8 +1,24 @@
+{% import "_macros.html" as macros %}
 <a href="{{ url_for('auth.logout') }}">logout</a>
 {% if current_user.is_authenticated %}
 {{ current_user.username }}
 <a href="{{ url_for('main.user',id=current_user.id) }}">个人资料</a>
 {% else %}
 <a href="{{ url_for('auth.login') }}">登录</a> <a href="{{ url_for('auth.register') }}">注册</a>
+{% endif %}
+<a href="{{ url_for('main.feedback') }}">反馈意见</a>
+
+
+{% for store in stores %}
+<a href="{{ url_for('main.store', id=store.id) }}"><p>{{ store.name }}</p>
+<p>{{ store.address }}</p>
+<p>{{ store.introduce }}</p></a>
+{% endfor %}
+
+
+{% if pagination %}
+<div class="pagination">
+{{ macros.pagination_widget(pagination, '.index') }}
+</div>
 {% endif %}
 

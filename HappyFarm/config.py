@@ -13,7 +13,7 @@ class Config:
 	MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 	FLASKY_MAIL_SUBJECT_PERFIX = '[Flasky]'
 	FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
-	FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+	FLASKY_ADMIN = '805898349@qq.com'
 	FLASKY_POSTS_PER_PAGE = 20
 	FLASKY_COMMENTS_PER_PAGE = 20
 	DEBUG = True

@@ -24,8 +24,21 @@ class AddShippingForm(Form):
 	province = StringField('province', validators=[Required(), Length(0,64)])
 	city = StringField('city', validators=[Required(), Length(0,64)])
 	detailadd = StringField('detail address', validators=[Required(), Length(0,64)])
-	zipcode = IntegerField('zip code', validators=[Required()])
-	phonenum = IntegerField('phone number', validators=[Required()])
+	zipcode = StringField('zip code', validators=[Required(), Length(0,64)])
+	phonenum = StringField('phone number', validators=[Required(), Length(0,64)])
 	receiver = StringField('receiver name', validators=[Required(), Length(0,64)])
 	submit = SubmitField('submit')
 	
+class SettleForm(Form):
+	name = StringField(u'店铺名称', validators=[Required()])
+	address = StringField(u'地址', validators=[Required()])
+	introduce = TextAreaField(u'简介')
+	submit = SubmitField(u'提交')
+
+class StoreCommentForm(Form):
+	body = StringField('', validators=[Required()])
+	submit = SubmitField('Submit')
+
+class FeedbackForm(Form):
+	body = StringField('', validators=[Required()])
+	submit = SubmitField('Submit')

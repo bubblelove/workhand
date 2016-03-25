@@ -104,6 +104,8 @@ def login():
 			user = User.query.filter_by(phonenum=form.phonenum.data).first()
 		if user is not None and user.verify_password(form.password.data):
 			login_user(user, form.remember_me.data)
+			user.loginip = request.remote_addr
+			db.session.add(user)
 			return redirect(url_for('main.index'))
 		flash('Invalid username or password.')
 	return render_template('auth/login.html', form=form)
@@ -128,3 +130,4 @@ def change_password():
 		else:
 			flash('Invalid password.')
 	return render_template('auth/change_password.html', form=form)
+

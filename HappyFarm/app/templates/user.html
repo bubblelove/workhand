@@ -2,6 +2,13 @@
 {% block content %}
 {% block page_content %}
 {% if user == current_user %}
+{% if user.bussiness %}
+{% for store in stores %}
+<a class="btn btn-default" href="{{ url_for('main.store', id=store.id) }}">我的店铺{{ store.name }}</a>
+{% endfor %}
+{% else %}
+<a class="btn btn-default" href="{{ url_for('main.settle') }}">商家入驻</a>
+{% endif %}
 <a class="btn btn-default" href="{{ url_for('main.edit_profile') }}">编辑资料</a>
 <a class="btn btn-default" href="{{ url_for('auth.change_password') }}">修改密码</a>
 <a class="btn btn-default" href="{{ url_for('main.safe') }}">账户安全</a>

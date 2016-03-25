@@ -38,21 +38,23 @@ class User(UserMixin, db.Model):
 	realname = db.Column(db.String(64))
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 	location = db.Column(db.String(128))
-	bussiness = db.Boolean
+	bussiness = db.Column(db.Boolean, default=False)
 	about_me = db.Column(db.Text())
 	sex = db.Column(db.String(64), default='male')
 	birthday = db.Column(db.DateTime)
 	member_since = db.Column(db.DateTime, default=datetime.utcnow)
 	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+	loginip = db.Column(db.String(64))
 	shippingadd = db.Column(db.String(128))
 	stores = db.relationship('Store', backref='host', lazy='dynamic')
 	comments = db.relationship('Comment', backref='author', lazy='dynamic')
+	feedback = db.relationship('Feedback', backref='adviser', lazy='dynamic')
 
 	def __init__(self, **kwargs):
 		super(User, self).__init__(**kwargs)
 		if self.role is None:
 			if self.email == current_app.config['FLASKY_ADMIN']:
-				self.role = Role.query.filter_by(permission=0xff).first()
+				self.role = Role.query.filter_by(permissions=0xff).first()
 			if self.role is None:
 				self.role = Role.query.filter_by(default=True).first()
 	
@@ -143,6 +145,7 @@ class Role(db.Model):
 class Store(db.Model):
 	__tablename__ = 'stores'
 	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(64))
 	address = db.Column(db.String(64))
 	introduce = db.Column(db.Text())
 	comments = db.relationship('Comment', backref='store', lazy='dynamic')
@@ -158,4 +161,8 @@ class Comment(db.Model):
 	author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
 
-	
+class Feedback(db.Model):
+	__tablename__ = 'feedbacks'
+	id = db.Column(db.Integer, primary_key=True)
+	body = db.Column(db.Text)
+	adviser_id = db.Column(db.Integer, db.ForeignKey('users.id'))

@@ -29,3 +29,16 @@ class AddShippingForm(Form):
 	receiver = StringField('receiver name', validators=[Required(), Length(0,64)])
 	submit = SubmitField('submit')
 	
+class SettleForm(Form):
+	name = StringField(u'店铺名称', validators=[Required()])
+	address = StringField(u'地址', validators=[Required()])
+	introduce = TextAreaField(u'简介')
+	submit = SubmitField(u'提交')
+
+class StoreCommentForm(Form):
+	body = StringField('', validators=[Required()])
+	submit = SubmitField('Submit')
+
+class FeedbackForm(Form):
+	body = StringField(u'感谢您写下您的建议与反馈，我们将在1-2个工作日内处理', validators=[Required()])
+	submit = SubmitField('Submit')

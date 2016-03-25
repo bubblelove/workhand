@@ -4,21 +4,39 @@ from flask import render_template, redirect, url_for, abort, flash, request,\
 from flask.ext.login import login_required, current_user
 from flask.ext.sqlalchemy import get_debug_queries
 from . import main
-from .forms import EditProfileForm, AddShippingForm
+from .forms import EditProfileForm, AddShippingForm, SettleForm, StoreCommentForm, FeedbackForm
 from .. import db
-from ..models import Permission,Role, User
+from ..models import Permission, Role, User, Store, Comment, Feedback
 from ..decorators import admin_required, permission_required
 
 @main.route('/index')
 def index():
-	return render_template('index.html')
+	page = request.args.get('page', 1, type=int)
+	pagination = Store.query.order_by(Store.build_since.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+	stores = pagination.items
+	return render_template('index.html', stores=stores, pagination=pagination)
+
+@main.route('/feedback', methods=['GET', 'POST'])
+@login_required
+def feedback():
+	form = FeedbackForm()
+	if form.validate_on_submit():
+		feed = Feedback(body=form.body.data, adviser=current_user._get_current_object())
+		db.session.add(feed)
+		flash(u'提交成功，感谢您的建议于反馈')
+		return redirect(url_for('.index'))
+	user = current_user
+	feeds = Feedback.query.all()
+	return render_template('feedback.html', form=form, user=user, feeds=feeds)
+	
 
 @main.route('/user/<int:id>')
 def user(id):
 	user = User.query.get_or_404(id)
+	stores = user.stores.order_by(Store.bulid_since.desc())
 	if user is None:
 		abort(404)
-	return render_template('user.html', user=user)
+	return render_template('user.html', user=user, stores=stores)
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
 @login_required
@@ -52,4 +70,34 @@ def shipping():
 		current_user.shippingadd = form.province.data + ' ' + form.city.data + ' ' + form.detailadd.data + ' ' + form.zipcode.data + ' ' + form.phonenum.data + ' ' + form.receiver.data
 		db.session.add(current_user)
 	return render_template('shipping.html', form=form)
+
+@main.route('/store/<int:id>', methods=['GET', 'POST'])
+def store(id):
+	store = Store.query.get_or_404(id)
+	if store is None:
+		abort(404)
+	host = store.host
+	form = StoreCommentForm()
+	comments = Comment.query.filter_by(store_id=store.id).all()
+	if form.validate_on_submit():
+		comment = Comment(body=form.body.data, author=current_user._get_current_object(), store=store)
+		db.session.add(comment)
+		return redirect(url_for('main.store', id=store.id))
+	return render_template('store.html', store=store, host=host, form=form, comments=comments)
+
+@main.route('/settle', methods=['GET', 'POST'])
+@login_required
+def settle():
+	form = SettleForm()
+	if form.validate_on_submit():
+		#current_user.stores = [Store(address=form.address.data, introduce=form.introduce.data)]
+		store = Store(name=form.name.data,address=form.address.data, introduce=form.introduce.data, host=current_user._get_current_object())
+		current_user.bussiness = True
+		db.session.add(store)
+		db.session.add(current_user)
+		db.session.commit()
+		flash('application pass')
+		return redirect(url_for('main.store', id=store.id))
+	return render_template('settle.html', form=form)
+	
 

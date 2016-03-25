@@ -1,0 +1,11 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{{ wtf.quick_form(form) }}
+{% if current_user.is_administrator %}
+{% for feed in feeds %}
+<p>反馈{{ feed.body }}</p>
+{% endfor %}
+{% endif %}
+
+
+<p>客服电话:11111111111</p>
+
