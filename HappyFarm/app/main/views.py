@@ -1,20 +1,24 @@
 # -*- coding:utf-8 -*-
 from flask import render_template, redirect, url_for, abort, flash, request,\
-    current_app, make_response
+    current_app, make_response, g
 from flask.ext.login import login_required, current_user
 from flask.ext.sqlalchemy import get_debug_queries
 from . import main
-from .forms import EditProfileForm, AddShippingForm, SettleForm, StoreCommentForm, FeedbackForm
+from .forms import EditProfileForm, AddShippingForm, SettleForm, StoreCommentForm, FeedbackForm, SearchForm
 from .. import db
 from ..models import Permission, Role, User, Store, Comment, Feedback
 from ..decorators import admin_required, permission_required
+from datetime import datetime
 
-@main.route('/index')
+@main.route('/index', methods=['GET', 'POST'])
 def index():
 	page = request.args.get('page', 1, type=int)
 	pagination = Store.query.order_by(Store.bulid_since.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
 	stores = pagination.items
-	return render_template('index.html', stores=stores, pagination=pagination)
+	form = SearchForm()
+	if form.validate_on_submit():
+		return redirect(url_for('main.search_results', query = form.search.data))
+	return render_template('index.html', stores=stores, pagination=pagination, form=form)
 
 @main.route('/feedback', methods=['GET', 'POST'])
 @login_required
@@ -91,7 +95,7 @@ def settle():
 	form = SettleForm()
 	if form.validate_on_submit():
 		#current_user.stores = [Store(address=form.address.data, introduce=form.introduce.data)]
-		store = Store(name=form.name.data,address=form.address.data, introduce=form.introduce.data, host=current_user._get_current_object())
+		store = Store(name=form.name.data,address=form.address.data, price=form.price.data, introduce=form.introduce.data, host=current_user._get_current_object())
 		current_user.bussiness = True
 		db.session.add(store)
 		db.session.add(current_user)
@@ -101,3 +105,7 @@ def settle():
 	return render_template('settle.html', form=form)
 	
 
+@main.route('/search_results/<query>')
+def search_results(query):
+	results = Store.query.filter_by(name=query).all()
+	return render_template('search_results.html', query=query, results=results)

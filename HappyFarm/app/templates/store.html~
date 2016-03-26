@@ -1,6 +1,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 <p>商店地址：{{ store.address }}</p>
 <p>商店简介：{{ store.introduce }}</p>
+<p>价格：{{ store.price }}</p>
 <p>建立日期：{{ store.bulid_since }}</p>
 <p>卖家：{{ host.username }}</p>
 <p>联系电话：{{ host.phonenum }}</p>

@@ -9,6 +9,7 @@ from . import auth
 import random
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import StringIO
+from datetime import datetime
 
 #随机字母
 #def rndChar():
@@ -105,6 +106,7 @@ def login():
 		if user is not None and user.verify_password(form.password.data):
 			login_user(user, form.remember_me.data)
 			user.loginip = request.remote_addr
+			user.last_seen = datetime.utcnow()
 			db.session.add(user)
 			return redirect(url_for('main.index'))
 		flash('Invalid username or password.')
@@ -130,3 +132,4 @@ def change_password():
 		else:
 			flash('Invalid password.')
 	return render_template('auth/change_password.html', form=form)
+

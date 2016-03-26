@@ -1,0 +1,13 @@
+
+<h3>Search results for "{{query}}":</h3>
+{% if results %}
+{% for store in results %}
+<a href="{{ url_for('main.store', id=store.id) }}"><p>{{ store.name }}
+{{ store.price }}
+{{ store.address }}
+{{ store.introduce }}</p></a>
+{% endfor %}
+{% else %}
+<p>很抱歉没有找到您所要的结果，换个名称试试？</p>
+{% endif %}
+

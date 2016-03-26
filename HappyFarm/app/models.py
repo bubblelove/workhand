@@ -9,7 +9,10 @@ from . import login_manager
 from flask import current_app
 from markdown import markdown
 import bleach
+import flask.ext.whooshalchemy as whooshalchemy
+from flask import Flask
 
+app = Flask(__name__)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -144,13 +147,17 @@ class Role(db.Model):
 
 class Store(db.Model):
 	__tablename__ = 'stores'
+	__searchable__ = ['name']
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(64))
 	address = db.Column(db.String(64))
+	price = db.Column(db.String(32))
 	introduce = db.Column(db.Text())
 	comments = db.relationship('Comment', backref='store', lazy='dynamic')
 	bulid_since = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 	host_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+whooshalchemy.whoosh_index(app, Store)
 
 class Comment(db.Model):
 	__tablename__ = 'comments'

@@ -1,3 +1,4 @@
+{% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 <a href="{{ url_for('auth.logout') }}">logout</a>
 {% if current_user.is_authenticated %}
@@ -8,11 +9,14 @@
 {% endif %}
 <a href="{{ url_for('main.feedback') }}">反馈意见</a>
 
+<div>搜索:{{ wtf.quick_form(form) }}
+</div>
 
 {% for store in stores %}
-<a href="{{ url_for('main.store', id=store.id) }}"><p>{{ store.name }}</p>
-<p>{{ store.address }}</p>
-<p>{{ store.introduce }}</p></a>
+<a href="{{ url_for('main.store', id=store.id) }}"><span>{{ store.name }}
+{{ store.price }}
+{{ store.address }}
+{{ store.introduce }}</span></a>
 {% endfor %}
 
 

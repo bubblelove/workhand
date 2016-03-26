@@ -7,6 +7,8 @@ class Config:
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	SQLALCHEMY_DATABASE_URI = 'mysql://root:123456@localhost/happyfarm'
+	WHOOSH_BASE = os.path.join(basedir, 'search.db')
+	MAX_SEARCH_RESULTS = 50
 	MAIL_SERVER = 'smtp.googlemail.com'
 	MAIL_PORT = 587
 	MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
@@ -16,6 +18,7 @@ class Config:
 	FLASKY_ADMIN = '805898349@qq.com'
 	FLASKY_POSTS_PER_PAGE = 20
 	FLASKY_COMMENTS_PER_PAGE = 20
+	MAX_SEARCH_RESULTS = 50
 	DEBUG = True
 
 	@staticmethod
