@@ -1,0 +1,8 @@
+{% if current_user %}
+{% for order in orders %}
+	<div><span><h3>订单编号:{{ order.id }}</h3></span>
+	<span><h4>预定数量:{{ order.mounts }}</h4></span>
+	<span><h4>买家编号:{{ order.buyer_id }}</h4></span>
+	<a href="{{ url_for('main.delete', id=order.id) }}">删除订单</a></div>
+{% endfor %}
+{% endif %}

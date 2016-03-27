@@ -10,7 +10,7 @@ from flask import current_app
 from markdown import markdown
 import bleach
 import flask.ext.whooshalchemy as whooshalchemy
-from flask import Flask
+from flask import Flask, url_for
 
 app = Flask(__name__)
 
@@ -24,12 +24,32 @@ class Follow(db.Model):
 	followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
 	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-class Order(db.Model):#下了订单通知卖家，虚拟付款功能？
+class Order(db.Model):#下了订单通知卖家？
 	__tablename__ = 'orders'
 	id = db.Column(db.Integer, primary_key=True)
 	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-	#???
+	mounts = db.Column(db.String(3), default='1')
+	seller_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
+	buyer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	
+	def to_json(self):
+		json_post = {
+			'url': url_for('api.get_order', id = self.id, _external = True),
+			'timestamp': self.timestamp,
+			'mounts': self.mounts,
+			#'seller': self.seller_id,
+			'seller': self.seller.name,
+			'buyer': self.buyer.username,
+
+		}
+		return json_post	
+
+	@staticmethod
+	def from_json(json_post):  #JSON格式转化成模型实例
+		mounts = json_post.get('mounts')
+		if mounts is None or mounts == '':
+			raise ValidationError(u'请确定数量')
+		return Order(mounts = mounts)
 
 class User(UserMixin, db.Model):
 	__tablename__ = 'users'
@@ -52,6 +72,8 @@ class User(UserMixin, db.Model):
 	stores = db.relationship('Store', backref='host', lazy='dynamic')
 	comments = db.relationship('Comment', backref='author', lazy='dynamic')
 	feedback = db.relationship('Feedback', backref='adviser', lazy='dynamic')
+	myorder = db.relationship('Order', backref='buyer', lazy='dynamic')
+
 
 	def __init__(self, **kwargs):
 		super(User, self).__init__(**kwargs)
@@ -156,6 +178,7 @@ class Store(db.Model):
 	comments = db.relationship('Comment', backref='store', lazy='dynamic')
 	bulid_since = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 	host_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	orders = db.relationship('Order', backref='seller', lazy='dynamic')
 
 whooshalchemy.whoosh_index(app, Store)
 

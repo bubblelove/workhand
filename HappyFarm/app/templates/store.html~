@@ -1,14 +1,47 @@
-{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/wtf.html" as wtf%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<style type="text/css"> </style> 
+<script type="text/javascript">
+function show()
+{
+document.getElementById("t").style.display="block";
+}
+</script>
+</head>
+
+<body>
+<div>
+<p>商店地址：{{ store.name }}</p>
 <p>商店地址：{{ store.address }}</p>
 <p>商店简介：{{ store.introduce }}</p>
 <p>价格：{{ store.price }}</p>
 <p>建立日期：{{ store.bulid_since }}</p>
 <p>卖家：{{ host.username }}</p>
 <p>联系电话：{{ host.phonenum }}</p>
+</div>
 
+<label>
+<input type="button" name="add" value="添加订单" onclick="show()"/>
+</label>
+<div name="t" id="t" style="display:none;position:absolute;">
+{{ wtf.quick_form(orderform)}}
+</div>
+<br><br><br><br>
 
+{% if current_user == host %}
+{% for order in orders %}
+	<div><span><h3>订单编号:{{ order.id }}</h3></span>
+	<span><h4>预定数量:{{ order.mounts }}</h4></span>
+	<span><h4>买家编号:{{ order.buyer_id }}</h4></span>
+	<a href="{{ url_for('main.delete') }}">删除订单</a></div>
+{% endfor %}
+{% endif %}
 
-{{ wtf.quick_form(form) }}
+<p>评论:{{ wtf.quick_form(form) }}</p>
 {% for comment in comments %}
 <p>用户：{{ comment.author.username }}评论：{{ comment.body }}</p>
 {% endfor %}

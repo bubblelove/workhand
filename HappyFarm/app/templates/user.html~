@@ -4,7 +4,7 @@
 {% if user == current_user %}
 {% if user.bussiness %}
 {% for store in stores %}
-<a class="btn btn-default" href="{{ url_for('main.store', id=store.id) }}">我的店铺</a>
+<a class="btn btn-default" href="{{ url_for('main.store', id=store.id) }}">我的店铺{{ store.name }}</a>
 {% endfor %}
 {% else %}
 <a class="btn btn-default" href="{{ url_for('main.settle') }}">商家入驻</a>

@@ -45,4 +45,9 @@ class FeedbackForm(Form):
 	submit = SubmitField('Submit')
 
 class SearchForm(Form):
-	search = TextField('search', validators=[Required()])
+	search = TextField('', validators=[Required()])
+	submit = SubmitField('Submit')
+
+class AddOrderForm(Form):
+	mounts = StringField(u'数量', validators=[Required()])
+	submit = SubmitField(u'提交')
