@@ -132,3 +132,54 @@ def myorder():
 	user = current_user
 	orders = Order.query.filter_by(buyer=user).all()
 	return render_template('myorder.html', orders=orders)
+
+@main.route('/follow/<storename>')
+@login_required
+@permission_required(Permission.FOLLOW)
+def follow(storename):
+	store = Store.query.filter_by(name=storename).first()
+	if store is None:
+		flash('Invalid user.')
+		return redirect(url_for('.index'))
+	if current_user.is_following(store):
+		flash('You are already following this host.')
+		return redirect(url_for('.store', id=store.id))
+	current_user.follow(store)
+	flash('You are now following % s.' % storename)
+	return redirect(url_for('.store', id=store.id))
+
+@main.route('/followers/<storename>')
+def followers(storename):
+	store = Store.query.filter_by(name=storename).first()
+	if store is None:
+		flash('Invalid store.')
+		return redirect(url_for('.index'))
+	page = request.args.get('page', 1, type=int)
+	pagination = store.followers.paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+	follows = [{'user': item.follower, 'timestamp': item.timestamp} for item in pagination.items]
+	return render_template('followers.html', store=store, titile="Followers of", endpoint='.followers', pagination=pagination, follows=follows, user=user)
+
+@main.route('/unfollow/<storename>')
+@login_required
+@permission_required(Permission.FOLLOW)
+def unfollow(storename):
+	store = Store.query.filter_by(name=storename).first()
+	if store is None:
+		flash('Invalid user.')
+		return redirect(url_for('.index'))
+	if not current_user.is_following(store):
+		flash('You are not following this user.')
+		return redirect(url_for('.store', id=store.id))
+	current_user.unfollow(store)
+	flash('You are not following %s anymore.' % storename)
+	return redirect(url_for('.store', id=store.id))
+
+@main.route('/keep/<int:id>')
+@login_required
+def keep(id):
+	user = User.query.get_or_404(id)
+	page = request.args.get('page', 1, type=int)
+	pagination = user.followed.paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+	follows = [{'store': item.followed, 'timestamp': item.timestamp} for item in pagination.items]
+	return render_template('keeps.html', store=store, titile="Keeps", endpoint='.keep', pagination=pagination, follows=follows, user=user)
+

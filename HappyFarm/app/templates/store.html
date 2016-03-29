@@ -22,6 +22,22 @@ document.getElementById("t").style.display="block";
 <p>建立日期：{{ store.bulid_since }}</p>
 <p>卖家：{{ host.username }}</p>
 <p>联系电话：{{ host.phonenum }}</p>
+{% if current_user != host %}
+{% if not current_user.is_following(store) %}
+<a href="{{ url_for('.follow', storename=store.name) }}"
+class="btn btn-primary">Follow</a>
+{% else %}
+<a href="{{ url_for('.unfollow', storename=store.name) }}"
+class="btn btn-default">Unfollow</a>
+{% endif %}
+{% endif %}
+<a href="{{ url_for('.followers', storename=store.name) }}">
+Followers: <span class="badge">{{ store.followers.count() }}</span>
+</a>
+{% if current_user.is_authenticated and host != current_user and
+current_user.is_following(store) %}
+| <span class="label label-default">Follows you</span>
+{% endif %}
 </div>
 
 <label>
@@ -45,4 +61,5 @@ document.getElementById("t").style.display="block";
 {% for comment in comments %}
 <p>用户：{{ comment.author.username }}评论：{{ comment.body }}</p>
 {% endfor %}
+
 

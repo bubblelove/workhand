@@ -21,10 +21,10 @@ def load_user(user_id):
 class Follow(db.Model):
 	__tablename__ = 'follows'
 	follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-	followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+	followed_id = db.Column(db.Integer, db.ForeignKey('stores.id'), primary_key=True)
 	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-class Order(db.Model):#下了订单通知卖家？
+class Order(db.Model):
 	__tablename__ = 'orders'
 	id = db.Column(db.Integer, primary_key=True)
 	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
@@ -73,6 +73,7 @@ class User(UserMixin, db.Model):
 	comments = db.relationship('Comment', backref='author', lazy='dynamic')
 	feedback = db.relationship('Feedback', backref='adviser', lazy='dynamic')
 	myorder = db.relationship('Order', backref='buyer', lazy='dynamic')
+	followed = db.relationship('Follow', foreign_keys=[Follow.follower_id], backref=db.backref('follower', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
 
 
 	def __init__(self, **kwargs):
@@ -89,6 +90,20 @@ class User(UserMixin, db.Model):
 	
 	def is_administrator(self):
 		return self.can(Permission.ADMINISTER)
+
+	def follow(self, store):
+		if not self.is_following(store):
+			f = Follow(follower=self, followed=store)
+			db.session.add(f)
+
+	def unfollow(self, store):
+		f = self.followed.filter_by(followed_id=store.id).first()
+		if f:
+			db.session.delete(f)
+
+	def is_following(self, store):
+		return self.followed.filter_by(followed_id=store.id).first() is not None
+
 	
 	@property
 	def password(self):  #define password.setter's password函数
@@ -179,6 +194,12 @@ class Store(db.Model):
 	bulid_since = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 	host_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	orders = db.relationship('Order', backref='seller', lazy='dynamic')
+	followers = db.relationship('Follow', foreign_keys=[Follow.followed_id],
+backref=db.backref('followed', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
+
+	def is_followed_by(self, user):
+		return self.followers.filter_by(follower_id=user.id).first() is not None
+
 
 whooshalchemy.whoosh_index(app, Store)
 
