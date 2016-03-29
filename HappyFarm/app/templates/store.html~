@@ -22,7 +22,7 @@ document.getElementById("t").style.display="block";
 <p>建立日期：{{ store.bulid_since }}</p>
 <p>卖家：{{ host.username }}</p>
 <p>联系电话：{{ host.phonenum }}</p>
-{% if current_user.can(Permission.FOLLOW) and current_user != host %}
+{% if current_user != host %}
 {% if not current_user.is_following(store) %}
 <a href="{{ url_for('.follow', storename=store.name) }}"
 class="btn btn-primary">Follow</a>

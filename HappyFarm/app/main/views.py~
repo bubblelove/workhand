@@ -176,7 +176,7 @@ def unfollow(storename):
 
 @main.route('/keep/<int:id>')
 @login_required
-def keep():
+def keep(id):
 	user = User.query.get_or_404(id)
 	page = request.args.get('page', 1, type=int)
 	pagination = user.followed.paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)

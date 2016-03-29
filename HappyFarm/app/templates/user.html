@@ -18,6 +18,7 @@
 {% endif %}
 <div class="page-header">
        <div class="profile-header">
+	<img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=256) }}">
         <h1>{{ user.username }}</h1>
 	<p>{{ user.phonenum }}</p>
         {% if user.realname or user.location %}
