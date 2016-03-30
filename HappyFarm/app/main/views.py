@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from flask import render_template, redirect, url_for, abort, flash, request,\
-    current_app, make_response, g
+    current_app, make_response, g, session
 from flask.ext.login import login_required, current_user
 from flask.ext.sqlalchemy import get_debug_queries
 from . import main
@@ -91,7 +91,7 @@ def store(id):
 	orders = Order.query.filter_by(seller = store).all()
 	orderform = AddOrderForm()
 	if orderform.validate_on_submit():
-		o = Order(mounts = orderform.mounts.data, seller = store, buyer = current_user._get_current_object())	
+		o = Order(mounts = orderform.mounts.data, laterpay = orderform.laterpay.data, seller = store, buyer = current_user._get_current_object())	
 		db.session.add(o)
 		db.session.commit()
 		return redirect(url_for('main.store', id=store.id))
