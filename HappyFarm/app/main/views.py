@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import os
 from flask import render_template, redirect, url_for, abort, flash, request,\
     current_app, make_response, g, session
 from flask.ext.login import login_required, current_user
@@ -9,6 +10,10 @@ from .. import db
 from ..models import Permission, Role, User, Store, Comment, Feedback, Order
 from ..decorators import admin_required, permission_required
 from datetime import datetime
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = '/home/su/桌面/workhand/HappyFarm/app/static/upload'
+ALLOWED_EXTENSIONS = set(['txt','pdf','png','jpg','jpeg','gif'])
 
 @main.route('/index', methods=['GET', 'POST'])
 def index():
@@ -183,3 +188,16 @@ def keep(id):
 	follows = [{'store': item.followed, 'timestamp': item.timestamp} for item in pagination.items]
 	return render_template('keeps.html', store=store, titile="Keeps", endpoint='.keep', pagination=pagination, follows=follows, user=user)
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
+@main.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload():
+	if request.method == 'POST':
+		f = request.files['file']
+		if f and allowed_file(f.filename):
+			fname = secure_filename(f.filename) #获取一个安全的文件名，且仅仅支持asci
+			f.save(os.path.join(UPLOAD_FOLDER, fname))
+			return redirect(url_for('main.upload', fname=fname))
+	return render_template('upload.html')
+	

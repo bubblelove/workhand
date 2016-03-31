@@ -13,10 +13,10 @@
 </div>
 
 {% for store in stores %}
-<a href="{{ url_for('main.store', id=store.id) }}"><p>{{ store.name }}
+<a href="{{ url_for('main.store', id=store.id) }}"><span>{{ store.name }}
 {{ store.price }}
 {{ store.address }}
-{{ store.introduce }}</p></a>
+{{ store.introduce }}</span></a>
 {% endfor %}
 
 
