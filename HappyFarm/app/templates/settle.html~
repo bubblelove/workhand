@@ -1,0 +1,4 @@
+{% import "bootstrap/wtf.html" as wtf%}
+<a href="{{ url_for('main.uploaded') }}">添加图片</a>
+{{ wtf.quick_form(form) }}
+

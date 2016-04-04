@@ -12,7 +12,8 @@ from ..decorators import admin_required, permission_required
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '/home/su/桌面/workhand/HappyFarm/app/static/upload'
+UPLOAD_FOLDER = '/home/su/HappyFarm/app/static/upload'
+UPLOAD_FOLDERS = '/home/su/HappyFarm/app/static/farmpic'
 ALLOWED_EXTENSIONS = set(['txt','pdf','png','jpg','jpeg','gif'])
 
 @main.route('/index', methods=['GET', 'POST'])
@@ -43,9 +44,10 @@ def feedback():
 def user(id):
 	user = User.query.get_or_404(id)
 	stores = user.stores.order_by(Store.bulid_since.desc())
+	head = user.head
 	if user is None:
 		abort(404)
-	return render_template('user.html', user=user, stores=stores)
+	return render_template('user.html', user=user, stores=stores, head=head)
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
 @login_required
@@ -116,6 +118,15 @@ def settle():
 		flash('application pass')
 		return redirect(url_for('main.store', id=store.id))
 	return render_template('settle.html', form=form)
+
+@main.route('/remove/<int:id>')
+@login_required
+def remove(id):
+	store = Store.query.get_or_404(id)
+	if store.host == current_user:
+		db.session.delete(store)
+		db.session.commit()
+		return redirect(url_for('main.user', id=current_user.id))
 	
 @main.route('/search_results/<query>')
 def search_results(query):
@@ -198,6 +209,23 @@ def upload():
 		if f and allowed_file(f.filename):
 			fname = secure_filename(f.filename) #获取一个安全的文件名，且仅仅支持asci
 			f.save(os.path.join(UPLOAD_FOLDER, fname))
-			return redirect(url_for('main.upload', fname=fname))
+			current_user.head=fname
+			db.session.add(current_user)
+			db.session.commit()
+			return redirect(url_for('main.user', id=current_user.id))
 	return render_template('upload.html')
 	
+@main.route('/uploaded', methods=['GET', 'POST'])
+@login_required
+def uploaded():
+	store = current_user.stores.order_by(Store.bulid_since.desc()).first()
+	if request.method == 'POST':
+		f = request.files['file']
+		if f and allowed_file(f.filename):
+			fname = secure_filename(f.filename) #获取一个安全的文件名，且仅仅支持asci
+			f.save(os.path.join(UPLOAD_FOLDERS, fname))
+			store.pic = fname
+			db.session.add(store)
+			db.session.commit()
+			return redirect(url_for('main.store', id=store.id))
+	return render_template('uploaded.html')

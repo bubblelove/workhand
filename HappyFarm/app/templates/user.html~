@@ -18,7 +18,7 @@
 {% endif %}
 <div class="page-header">
        <div class="profile-header">
-	<img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=256) }}">
+	<img src="{{ url_for('static', filename='upload/%s' %head) }}" height="80" width="80"> 
         <h1>{{ user.username }}</h1>
 	<p>{{ user.phonenum }}</p>
         {% if user.realname or user.location %}

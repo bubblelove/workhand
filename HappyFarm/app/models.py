@@ -72,6 +72,7 @@ class User(UserMixin, db.Model):
 	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 	loginip = db.Column(db.String(64))
 	shippingadd = db.Column(db.String(128))
+	head = db.Column(db.String(128))
 	avatar_hash = db.Column(db.String(32))
 	stores = db.relationship('Store', backref='host', lazy='dynamic')
 	comments = db.relationship('Comment', backref='author', lazy='dynamic')
@@ -124,6 +125,13 @@ class User(UserMixin, db.Model):
 		hash = self.avatar_hash or hashlib.md5(self.email.encode('utf-8')).hexdigest()
 		return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
 url=url, hash=hash, size=size, default=default, rating=rating)
+	
+	def to_url(self):
+		if self.head:
+			return self.string(self.head)
+
+	def string(self, s):
+        	return r'<img src="' + s +r'">'
 	
 	@property
 	def password(self):  #define password.setter's password函数
@@ -208,6 +216,7 @@ class Store(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(64))
 	address = db.Column(db.String(64))
+	pic = db.Column(db.String(64))
 	price = db.Column(db.String(32))
 	introduce = db.Column(db.Text())
 	comments = db.relationship('Comment', backref='store', lazy='dynamic')

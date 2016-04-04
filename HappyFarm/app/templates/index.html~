@@ -1,3 +1,4 @@
+
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 <a href="{{ url_for('auth.logout') }}">logout</a>
@@ -13,7 +14,9 @@
 </div>
 
 {% for store in stores %}
-<a href="{{ url_for('main.store', id=store.id) }}"><span>{{ store.name }}
+<a href="{{ url_for('main.store', id=store.id) }}"><span>
+<img src="{{ url_for('static', filename='farmpic/%s' %store.pic) }}" height="120" width="140">
+{{ store.name }}
 {{ store.price }}
 {{ store.address }}
 {{ store.introduce }}</span></a>
