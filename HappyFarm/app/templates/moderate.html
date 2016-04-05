@@ -1,0 +1,42 @@
+{% import "_macros.html" as macros %}
+{% block page_content %}
+<div class="page-header">
+<h1>Comment Moderation</h1>
+</div>
+{% set moderate = True %}
+<ul class="comments">
+    {% for comment in comments %}
+    <li class="comment">
+        <div class="comment-content">
+            <div class="comment-date">{{ moment(comment.timestamp).fromNow() }}</div>
+            <div class="comment-author"><a href="{{ url_for('.user', id=comment.author.id) }}">{{ comment.author.username }}</a></div>
+            <div class="comment-body">
+                {% if comment.disabled %}
+                <p><i>This comment has been disabled by a moderator.</i></p>
+                {% endif %}
+                {% if moderate or not comment.disabled %}{#管理员都可以看到#}
+                    {% if comment.body_html %}{#如果disabled，普通用户看不到#}
+                        {{ comment.body_html | safe }}{#如果enabled，普通用户可以看到#}
+                    {% else %}
+                        {{ comment.body }}
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% if moderate %}
+                <br>
+                {% if comment.disabled %}
+                <a class="btn btn-default btn-xs" href="{{ url_for('.moderate_enable', id=comment.id, page=page) }}">Enable</a>
+                {% else %}
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">Disable</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% if pagination %}
+<div class="pagination">
+{{ macros.pagination_widget(pagination, '.moderate') }}
+</div>
+{% endif %}
+{% endblock %}

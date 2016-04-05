@@ -15,9 +15,10 @@ document.getElementById("t").style.display="block";
 
 <body>
 <div>
+<a href="{{ url_for('main.remove', id=store.id) }}">撤出商店</a>
 <img src="{{ url_for('static', filename='farmpic/%s' %store.pic) }}" height="120" width="120"> 
 <a href="{{ url_for('main.uploaded', id=store.id) }}">更改图片</a>
-<p>商店地址：{{ store.name }}</p>
+<p>商店名称：{{ store.name }}</p>
 <p>商店地址：{{ store.address }}</p>
 <p>商店简介：{{ store.introduce }}</p>
 <p>价格：{{ store.price }}</p>
@@ -58,10 +59,19 @@ current_user.is_following(store) %}
 	<a href="{{ url_for('main.delete', id=order.id) }}">删除订单</a></div>
 {% endfor %}
 {% endif %}
-
+{% if current_user.can(Permission.MODERATE_COMMENTS) %}
+<li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
+{% endif %}
 <p>评论:{{ wtf.quick_form(form) }}</p>
 {% for comment in comments %}
-<p>用户：{{ comment.author.username }}评论：{{ comment.body }}</p>
+{% if comment.disabled %}
+<p><i>This comment has been disabled by a moderator.</i></p>
+{% else %}
+{% if comment.count %}
+<p>二十字以上的评价</p>
+{% endif %}
+<p>用户：{{ comment.author.username }}   评论：{{ comment.body }}</p>
+{% endif %}
 {% endfor %}
 
 

@@ -237,7 +237,8 @@ class Comment(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	body = db.Column(db.Text)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-	disabled = db.Column(db.Boolean)
+	disabled = db.Column(db.Boolean, default=False)
+	count = db.Column(db.Boolean, default=False)
 	author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
 

@@ -15,11 +15,11 @@
 
 {% for store in stores %}
 <a href="{{ url_for('main.store', id=store.id) }}"><span>
-<img src="{{ url_for('static', filename='farmpic/%s' %store.pic) }}" height="120" width="140">
-{{ store.name }}
-{{ store.price }}
-{{ store.address }}
-{{ store.introduce }}</span></a>
+<div><img src="{{ url_for('static', filename='farmpic/%s' %store.pic) }}" height="120" width="140"></div>
+<div>名字:{{ store.name }}
+价格:{{ store.price }}
+地址:{{ store.address }}
+简介:{{ store.introduce }}</div></span></a>
 {% endfor %}
 
 
