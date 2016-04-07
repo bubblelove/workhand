@@ -26,12 +26,24 @@ class Follow(db.Model):
 	followed_id = db.Column(db.Integer, db.ForeignKey('stores.id'), primary_key=True)
 	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
+class Chat(db.Model):
+	__tablename__ = 'chats'
+	id = db.Column(db.Integer, primary_key=True)
+	body1 = db.Column(db.Text)
+	body2 = db.Column(db.Text)
+	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+	message_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+primary_key=True)
+	contact_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+primary_key=True)
+
 class Order(db.Model):
 	__tablename__ = 'orders'
 	id = db.Column(db.Integer, primary_key=True)
 	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 	mounts = db.Column(db.String(3), default='1')
 	laterpay = db.Column(db.Boolean, default=False)
+	complete = db.Column(db.Boolean, default=False)
 	seller_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
 	buyer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	
@@ -76,9 +88,12 @@ class User(UserMixin, db.Model):
 	avatar_hash = db.Column(db.String(32))
 	stores = db.relationship('Store', backref='host', lazy='dynamic')
 	comments = db.relationship('Comment', backref='author', lazy='dynamic')
+	bbs = db.relationship('BB', backref='writer', lazy='dynamic')
 	feedback = db.relationship('Feedback', backref='adviser', lazy='dynamic')
 	myorder = db.relationship('Order', backref='buyer', lazy='dynamic')
 	followed = db.relationship('Follow', foreign_keys=[Follow.follower_id], backref=db.backref('follower', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
+	message = db.relationship('Chat', foreign_keys=[Chat.contact_id], backref=db.backref('contact', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
+	contact = db.relationship('Chat', foreign_keys=[Chat.message_id], backref=db.backref('message', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
 
 
 	def __init__(self, **kwargs):
@@ -247,3 +262,11 @@ class Feedback(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	body = db.Column(db.Text)
 	adviser_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+class BB(db.Model):
+	__tablename__ = 'bbs'
+	id = db.Column(db.Integer, primary_key=True)
+	body = db.Column(db.Text)
+	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+	writer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+

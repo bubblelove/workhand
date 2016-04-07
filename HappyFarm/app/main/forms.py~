@@ -50,4 +50,5 @@ class SearchForm(Form):
 
 class AddOrderForm(Form):
 	mounts = StringField(u'数量', validators=[Required()])
+	laterpay = BooleanField(u'稍后付款')
 	submit = SubmitField(u'提交')

@@ -51,18 +51,21 @@ current_user.is_following(store) %}
 </div>
 <br><br><br><br>
 
-{% if current_user == host %}
 {% for order in orders %}
 	<div><span><h3>订单编号:{{ order.id }}</h3></span>
 	<span><h4>预定数量:{{ order.mounts }}</h4></span>
 	<span><h4>买家编号:{{ order.buyer_id }}</h4></span>
+	{% if current_user == order.buyer %}
 	<a href="{{ url_for('main.delete', id=order.id) }}">删除订单</a></div>
+	{% if not order.complete %}
+	<a href="{{ url_for('main.complete', id=order.id) }}">完成订单</a></div>
+	{% endif %}
+	{% endif %}
 {% endfor %}
-{% endif %}
+
 {% if current_user.can(Permission.MODERATE_COMMENTS) %}
 <li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
 {% endif %}
-<p>评论:{{ wtf.quick_form(form) }}</p>
 {% for comment in comments %}
 {% if comment.disabled %}
 <p><i>This comment has been disabled by a moderator.</i></p>

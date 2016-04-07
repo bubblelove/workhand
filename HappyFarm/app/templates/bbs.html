@@ -1,0 +1,9 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% for b in bbs %}
+{{ b.body }}
+{{ b.writer.username }}
+{{ b.timestamp }}
+{% endfor %}
+{% if current_user %}
+{{ wtf.quick_form(form) }}
+{% endif %}
