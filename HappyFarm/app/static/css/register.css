@@ -1,0 +1,22 @@
+*{
+	padding:0px;
+	margin:0px;
+}
+#wrap{
+	width:100%;
+	height: auto;
+	margin: 0 auto;
+}
+.header{
+	width:80%;
+	height:95px;
+	margin:0 auto;
+	position:relative;
+}
+.header img{
+	width:166px;
+	height: 63px;
+	line-height:middle;
+	position: absolute;
+	top:16px;
+}

@@ -224,6 +224,9 @@ class Role(db.Model):
 			db.session.add(role)  
 		db.session.commit()
 
+#class Discount(db.Model):
+#	__tablename__ == 'discounts'
+#	id = db.Column(db.Integer, primary_key=True)
 
 class Store(db.Model):
 	__tablename__ = 'stores'

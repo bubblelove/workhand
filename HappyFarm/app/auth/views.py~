@@ -47,7 +47,7 @@ from datetime import datetime
 def register():
 	form = RegistrationForm()
 	if form.validate_on_submit():
-		user = User(email=form.email.data, phonenum=form.phonenum.data, password=form.password.data)
+		user = User(email=form.email.data, phonenum=form.phonenum.data, password=form.password.data, username=form.username.data)
 		db.session.add(user)
 		db.session.commit()
 		flash('you have successfully register.')

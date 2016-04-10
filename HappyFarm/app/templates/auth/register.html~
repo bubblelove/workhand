@@ -1,4 +1,18 @@
 {% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html>
+ <head>
+   <link href="../static/images/icon.ico" rel="shortcut icon" /><!--title小图标-->
+   <title>农家乐_注册_旅游网</title>
+   <meta charset="utf-8" />
+   <link href="../static/css/register.css" rel="stylesheet" type="text/css" />
+ </head>
+ <div id="wrap">
+  <div class="header">
+    <a href="index.html"><img src="../static/images/logo.jpg.jpg" /></a>
+    </div>
+  </div>
+  <div class="footer">
 <form action="" method="post" class="form" role="form">
         {{ form.hidden_tag() }}
         <div class="form-group required">
@@ -8,6 +22,10 @@
         <div class="form-group required">
             {{ form.email.label(class="control-label") | safe }}
             {{ form.email(class="form-control", required=True) }}
+        </div>
+        <div class="form-group required">
+            {{ form.username.label(class="control-label") | safe }}
+            {{ form.username(class="form-control", required=True) }}
         </div>
         {% if form.errors.password %}
         <div class="form-group has-error required">
@@ -43,4 +61,5 @@
     </form>
     <div class="register">
         <a type="button" class="btn btn-info" style="width: 100%;" href="#">已有账号？登录</a>
-    </div>
+  </div>
+ </div>

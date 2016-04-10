@@ -1,11 +1,39 @@
 {% import "bootstrap/wtf.html" as wtf %}
-{{ wtf.quick_form(form) }}
+<!DOCTYPE html>
+<html>
+ <head>
+   <link href="../static/images/icon.ico" rel="shortcut icon" /><!--title小图标-->
+   <title>农家乐_用户反馈_旅游网</title>
+   <meta charset="utf-8" />
+   <link href="../static/css/us.css" rel="stylesheet" type="text/css" />
+ </head>
+ <body>
+   <div id="wrap">
+    <div class="header">
+      <a href="index.html"><img src="../static/images/logo.png.png" /></a>
+    </div>
+    <div class="main">
+    <div class="above">
+      <div class="left">
+        <ul>
+          <li><a href="{{ url_for('main.about') }}">关于我们</a></li>
+          <li><a href="{{ url_for('main.contact') }}">联系我们</a></li>
+          <li><a href="protocal.html">用户协议</a></li>
+          <li><a href="{{ url_for('main.feedback') }}">反馈意见</a></li>
+        </ul>
+      </div>
+      <div class="right">
+        <h2>用户反馈</h2>
+	<p>感谢您写下您的建议与反馈，我们将在1-2个工作日内处理:</p>
+<p class="form">{{ wtf.quick_form(form) }}</p>
 {% if current_user.is_administrator %}
 {% for feed in feeds %}
 <p>反馈{{ feed.body }}</p>
 {% endfor %}
 {% endif %}
-
-
-<p>客服电话:11111111111</p>
-
+        <p></p>
+      </div>
+    </div>
+    </div>
+</body>
+</html>

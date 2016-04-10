@@ -1,0 +1,2 @@
+{% import "bootstrap/wtf.html" as wtf%}
+<p>评论:{{ wtf.quick_form(form) }}</p>

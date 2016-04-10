@@ -41,7 +41,7 @@ class StoreCommentForm(Form):
 	submit = SubmitField('Submit')
 
 class FeedbackForm(Form):
-	body = StringField(u'感谢您写下您的建议与反馈，我们将在1-2个工作日内处理', validators=[Required()])
+	body = StringField('', validators=[Required()])
 	submit = SubmitField('Submit')
 
 class SearchForm(Form):

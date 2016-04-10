@@ -50,6 +50,8 @@ def register():
 		user = User(email=form.email.data, phonenum=form.phonenum.data, password=form.password.data, username=form.username.data)
 		db.session.add(user)
 		db.session.commit()
+		send_email(user.email, 'Confirm Your Account',
+'auth/email/confirm', user=user)
 		flash('you have successfully register.')
 		return redirect(url_for('.login'))
 	return render_template('auth/register.html', form=form)

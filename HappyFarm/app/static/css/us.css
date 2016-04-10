@@ -1,0 +1,94 @@
+*{
+	padding:0px;
+	margin:0px;
+
+}
+#wrap{
+	width:100%;
+	height: auto;
+	margin: 0 auto;
+}
+.header{
+	width:80%;
+	height:95px;
+	margin:0 auto;
+	position:relative;
+}
+.header img{
+	width:166px;
+	height: 63px;
+	line-height:middle;
+	position: absolute;
+	top:16px;
+}
+.main{
+	width:100%;
+	height:800px;
+	margin: 0 auto;
+	background-color: #eeeeee;
+	position:relative;
+}
+.above{
+	width:80%;
+	height: 560px;
+	margin:20px 10%;
+	position: absolute;
+}
+.left{
+	width:25%;
+	height:auto;
+	float:left;
+	background-color: #ffffff;
+	font-family:'microsoft yahei';
+	font-size: 16px;
+	text-align: center;
+}
+.left ul{
+	list-style: none;
+	margin:10px auto;
+}
+.left li{
+	margin-top:10px;
+	text-align: center;
+	letter-spacing: 2px;
+}
+.left a:link,a:visited{
+	text-decoration: none;
+	color:#404040;
+}
+.left a:hover{
+	color:#ff8800;
+}
+.right{
+  width:72%;
+	height:auto;
+  float: right;
+	background-color:#ffffff;
+	font-family:'microsoft yahei';
+}
+.right h2{
+	width:100%;
+	height:50px;
+	font-size: 26px;
+	font-family: 'microsoft yahei';
+	font-weight: 400;
+	margin-top: 20px;
+	margin-left:20px;
+}
+h4{
+	width:100%;
+	height:auto;
+	font-size: 18px;
+	font-family: 'microsoft yahei';
+	font-weight: 400;
+	margin-top: 20px;
+	margin-left:20px;
+}
+.right p{
+	width: 90%;
+	height:auto;
+  margin: 10px auto;
+	text-indent: 1em;
+	letter-spacing: 1px;
+
+}

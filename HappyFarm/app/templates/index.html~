@@ -1,36 +1,190 @@
+<!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-</head>
-<body>
+	<head>
+		<link href="../static/images/icon.ico" rel="shortcut icon" /><!--title小图标-->
+		<title>农家乐_旅游_旅游网</title>
+		<meta charset="utf-8" />
+		<link href="../static/css/main.css" rel="stylesheet" type="text/css" />
+
+<!-- scroll-->
+
+<link rel="stylesheet" type="text/css" href="../static/css/demo.css" />
+
+<!--必要样式-->
+<link rel="stylesheet" type="text/css" href="../static/css/slicebox.css" />
+<link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
+
+<script type="text/javascript" src="../static/js/modernizr.custom.46884.js"></script>
+
+<!--  scroll -->
+	</head>
+	<body>
+		<div id="wrap">
+			<div class="header_top">
+				<div class="login_infor">
+					<div class="login_register">
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
-<a href="{{ url_for('auth.logout') }}">logout</a>
+<span class="l1"><a href="{{ url_for('auth.logout') }}">logout</a></span>
 {% if current_user.is_authenticated %}
 {{ current_user.username }}
-<a href="{{ url_for('main.user',id=current_user.id) }}">个人资料</a>
+<span class="l3"><a href="{{ url_for('main.user',id=current_user.id) }}">个人资料</a></span>
 {% else %}
-<a href="{{ url_for('auth.login') }}">登录</a> <a href="{{ url_for('auth.register') }}">注册</a>
+<span class="l1"><a href="{{ url_for('auth.login') }}">登录</a></span> <span class="l2"><a href="{{ url_for('auth.register') }}">注册</a></span>
 {% endif %}
-<a href="{{ url_for('main.feedback') }}">反馈意见</a>
+					</div>
+					<div class="reservation">
+<span class="r1"><a href="{{ url_for('main.feedback') }}">反馈意见</a></span>
+<span class="r2"><a href="{{ url_for('main.bbs') }}">论坛</a></span>
+					</div>
+				</div>
+			</div>
+			<div class="header_middle">
+				<a href="index.html"><img src="../static/images/logo.jpg.jpg" class="img1" /></a>
+				<div class="search_roll">搜索:{{ wtf.quick_form(form) }}</div>
+				<img src="../static/images/service.png" class="img2" />
+			</div>
+			<br>
+			<div class="main">
+					<div class="scroll_bar">
+	<!-- 滚动  -->
+						<div class="wrapper">
 
-<div>搜索:{{ wtf.quick_form(form) }}
-</div>
+							<ul id="sb-slider" class="sb-slider">
+								<li>
+									<a href="http://www.17sucai.com/" target="_blank"><img src="images/1.jpg" alt="image1" class="scroll_image" /></a>
+									<div class="sb-description">
+										<h3>Creative Lifesaver</h3>
+									</div>
+								</li>
+								<li>
+									<a href="http://www.17sucai.com/" target="_blank"><img src="images/2.jpg" alt="image2"/></a>
+									<div class="sb-description">
+										<h3>Honest Entertainer</h3>
+									</div>
+								</li>
+								<li>
+									<a href="http://www.17sucai.com/" target="_blank"><img src="images/3.jpg" alt="image1"/></a>
+									<div class="sb-description">
+										<h3>Brave Astronaut</h3>
+									</div>
+								</li>
+								<li>
+									<a href="http://www.17sucai.com/" target="_blank"><img src="images/4.jpg" alt="image1"/></a>
+									<div class="sb-description">
+										<h3>Affectionate Decision Maker</h3>
+									</div>
+								</li>
+								<li>
+									<a href="http://www.17sucai.com/" target="_blank"><img src="images/5.jpg" alt="image1"/></a>
+									<div class="sb-description">
+										<h3>Faithful Investor</h3>
+									</div>
+								</li>
+								<li>
+									<a href="http://www.17sucai.com/" target="_blank"><img src="images/6.jpg" alt="image1"/></a>
+									<div class="sb-description">
+										<h3>Groundbreaking Artist</h3>
+									</div>
+								</li>
+								<li>
+									<a href="http://www.17sucai.com/" target="_blank"><img src="images/7.jpg" alt="image1"/></a>
+									<div class="sb-description">
+										<h3>Selfless Philantropist</h3>
+									</div>
+								</li>
+							</ul>
 
+							<div id="shadow" class="shadow"></div>
+
+							<div id="nav-arrows" class="nav-arrows">
+								<a href="#">Next</a>
+								<a href="#">Previous</a>
+							</div>
+
+						</div><!-- /wrapper -->
+
+
+						<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+						<script type="text/javascript" src="../static/js/jquery.slicebox.js"></script>
+						<script type="text/javascript">
+						$(function() {
+
+							var Page = (function() {
+
+								var $navArrows = $( '#nav-arrows' ).hide(),
+									$shadow = $( '#shadow' ).hide(),
+									slicebox = $( '#sb-slider' ).slicebox( {
+										onReady : function() {
+
+											$navArrows.show();
+											$shadow.show();
+
+										},
+										orientation : 'r',
+										cuboidsRandom : true
+									} ),
+
+									init = function() {
+
+										initEvents();
+
+									},
+									initEvents = function() {
+
+										// add navigation events
+										$navArrows.children( ':first' ).on( 'click', function() {
+
+											slicebox.next();
+											return false;
+
+										} );
+
+										$navArrows.children( ':last' ).on( 'click', function() {
+
+											slicebox.previous();
+											return false;
+
+										} );
+
+									};
+
+									return { init : init };
+
+							})();
+
+							Page.init();
+
+						});
+						</script>
+<!-- 滚动 -->
+					</div>
+					<div class="purchase_form">
 {% for store in stores %}
+							<div class="form2">
+									<div class="p1">
 <a href="{{ url_for('main.store', id=store.id) }}"><span>
 <div><img src="{{ url_for('static', filename='farmpic/%s' %store.pic) }}" height="120" width="140"></div>
 <div>名字:{{ store.name }}
 价格:{{ store.price }}
 地址:{{ store.address }}
 简介:{{ store.introduce }}</div></span></a>
-{% endfor %}
-
-
-{% if pagination %}
+</div>
+{% endfor %}						
+							</div>
+	
+			</div>
+			<div class="footer">
+24小时客户服务电话：400-845-345 <br />
+				<a href="about_us.html" target="_blank">关于我们</a> | <a href="contact_us.html" target="_blank">联系我们</a> | <a href="protoca.html" target="_blank">用户协议</a> | <a href="help.html" target="_blank">用户反馈</a><br />
+				Copyright &copy 2016-2020 <a href="index.html" target="_blank">农家乐旅游网</a> 东旭工作室
+	    {% if pagination %}
 <div class="pagination">
 {{ macros.pagination_widget(pagination, '.index') }}
 </div>
 {% endif %}
-</body>
+	    </div>
+		</div>
+	</body>
+
 </html>
