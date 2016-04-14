@@ -1,8 +1,12 @@
+{% if current_user == host %}
 {% import "bootstrap/wtf.html" as wtf%}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../static/images/icon.ico" rel="shortcut icon" /><!--title小图标-->
+<link href="../static/css/user.css" rel="stylesheet" type="text/css" />
+<script src="moment.js"></script> <script> moment().format(); </script> 
 <title></title>
 <style type="text/css"> </style> 
 <script type="text/javascript">
@@ -13,12 +17,28 @@ document.getElementById("t").style.display="block";
 </script>
 </head>
 
-<body>
-<div>
-<a href="{{ url_for('main.remove', id=store.id) }}">撤出商店</a>
-<img src="{{ url_for('static', filename='farmpic/%s' %store.pic) }}" height="120" width="120"> 
-<a href="{{ url_for('main.uploaded', id=store.id) }}">更改图片</a>
-<p><a href="{{ url_for('main.chat', id=host.id) }}">联系卖家</a></p>
+ <body>
+ <div id="wrap">
+  <div class="header">
+    <a href="{{ url_for('main.index') }}"><img src="../static/images/logo.jpg.jpg" /></a>
+  
+  </div>
+  <div class="main">
+  <div class="above">
+    <div class="left">
+      <div class="userpic">
+      </div>
+      <ul>
+	<li><a href="{{ url_for('main.user', id=host.id) }}">个人中心</a></li>
+	<li><a href="{{ url_for('main.remove', id=store.id) }}">撤出商店</a></li>
+	<li><a href="{{ url_for('main.uploaded', id=store.id) }}">更改图片</a></li>
+	<li><a href="{{ url_for('main.chat', id=host.id) }}">联系卖家</a></li>
+      </ul>
+    </div>
+    <div class="right">
+      <h2>我的店铺</h2>
+      <div>
+	<img src="{{ url_for('static', filename='farmpic/%s' %store.pic) }}" height="120" width="120"> 
 <p>商店名称：{{ store.name }}</p>
 <p>商店地址：{{ store.address }}</p>
 <p>商店简介：{{ store.introduce }}</p>
@@ -26,6 +46,7 @@ document.getElementById("t").style.display="block";
 <p>建立日期：{{ store.bulid_since }}</p>
 <p>卖家：{{ host.username }}</p>
 <p>联系电话：{{ host.phonenum }}</p>
+<p>店铺评分：{{ store.marks }}</p>
 {% if current_user != host %}
 {% if not current_user.is_following(store) %}
 <a href="{{ url_for('.follow', storename=store.name) }}"
@@ -77,5 +98,128 @@ current_user.is_following(store) %}
 <p>用户：{{ comment.author.username }}   评论：{{ comment.body }}</p>
 {% endif %}
 {% endfor %}
+      </div>
+    </div>
+    <div class="footer">
+      24小时客户服务电话：400-845-345 <br />
+      <a href="about_us.html" target="_blank">关于我们</a> | <a href="contact_us.html" target="_blank">联系我们</a> | <a href="protoca.html" target="_blank">用户协议</a> | <a href="help.html" target="_blank">用户反馈</a><br />
+      Copyright &copy 2016-2020 <a href="index.html" target="_blank">农家乐旅游网</a> 东旭工作室
+    </div>
+  </div>
+  </div>
+ </div>
+</body>
+</html>
+{% else %}
+{% import "bootstrap/wtf.html" as wtf%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../static/images/icon.ico" rel="shortcut icon" /><!--title小图标-->
+<link href="../static/css/main.css" rel="stylesheet" type="text/css" />
+<script src="moment.js"></script> <script> moment().format(); </script> 
+<title></title>
+<style type="text/css"> </style> 
+<script type="text/javascript">
+function show()
+{
+document.getElementById("t").style.display="block";
+}
+</script>
+</head>
 
+ <body>
+ <div id="wrap">
+<div class="header_top">
+				<div class="login_infor">
+					<div class="login_register">
+						<span class="l1"></span>
+						<span class="l2"></span>
+						<span class="l3"></span>
+					</div>
+					<div class="reservation">
+						<span class="r1"><a href="{{ url_for('main.feedback') }}">反馈意见</a></span>
+						<span class="r2"><a href="{{ url_for('main.bbs') }}">论坛</a></span>
+					</div>
+				</div>
+			</div>
+  <div class="header">
+    <a href="{{ url_for('main.index') }}"><img src="../static/images/logo.jpg.jpg" /></a> </div>
+  			<div class="main_index">
+	<img src="{{ url_for('static', filename='farmpic/%s' %store.pic) }}" height="120" width="120"> 
+<a href="{{ url_for('main.chat', id=host.id) }}">联系卖家</a>
+<p>商店名称：{{ store.name }}</p>
+<p>商店地址：{{ store.address }}</p>
+<p>商店简介：{{ store.introduce }}</p>
+<p>价格：{{ store.price }}</p>
+<p>建立日期：{{ store.bulid_since }}</p>
+<p>卖家：{{ host.username }}</p>
+<p>联系电话：{{ host.phonenum }}</p>
+<p>店铺评分：{{ store.marks }}</p>
+{% if current_user != host %}
+{% if not current_user.is_following(store) %}
+<a href="{{ url_for('.follow', storename=store.name) }}"
+class="btn btn-primary">Follow</a>
+{% else %}
+<a href="{{ url_for('.unfollow', storename=store.name) }}"
+class="btn btn-default">Unfollow</a>
+{% endif %}
+{% endif %}
+<a href="{{ url_for('.followers', storename=store.name) }}">
+Followers: <span class="badge">{{ store.followers.count() }}</span>
+</a>
+{% if current_user.is_authenticated and host != current_user and
+current_user.is_following(store) %}
+| <span class="label label-default">Follows you</span>
+{% endif %}
+</div>
 
+<label>
+<input type="button" name="add" value="添加订单" onclick="show()"/>
+</label>
+<div name="t" id="t" style="display:none;position:absolute;">
+{{ wtf.quick_form(orderform)}}
+</div>
+<br><br><br><br>
+
+{% for order in orders %}
+	<div><span><h3>订单编号:{{ order.id }}</h3></span>
+	<span><h4>预定数量:{{ order.mounts }}</h4></span>
+	<span><h4>买家编号:{{ order.buyer_id }}</h4></span>
+	{% if current_user == order.buyer %}
+	<a href="{{ url_for('main.delete', id=order.id) }}">删除订单</a></div>
+	{% if not order.complete %}
+	<a href="{{ url_for('main.complete', id=order.id) }}">完成订单</a></div>
+	{% endif %}
+	{% endif %}
+{% endfor %}
+
+{% if current_user.can(Permission.MODERATE_COMMENTS) %}
+<li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
+{% endif %}
+{% for comment in comments %}
+{% if comment.disabled %}
+<p><i>This comment has been disabled by a moderator.</i></p>
+{% else %}
+{% if comment.count %}
+<p>二十字以上的评价</p>
+{% endif %}
+<p>用户：{{ comment.author.username }}   评论：{{ comment.body }}</p>
+{% endif %}
+{% endfor %}
+      </div>
+    </div>
+			</div>
+
+    <div class="footer">
+24小时客户服务电话：400-845-345 <br />
+				<a href="{{ url_for('main.about') }}" target="_blank">关于我们</a> | <a href="{{ url_for('main.contact') }}" target="_blank">联系我们</a> | <a href="{{ url_for('main.protocal') }}" target="_blank">用户协议</a> | <a href="{{ url_for('main.feedback') }}" target="_blank">用户反馈</a><br />
+				Copyright &copy 2016-2020 <a href="{{ url_for('main.index') }}" target="_blank">农家乐旅游网</a> 东旭工作室
+	    </div>
+  </div>
+  </div>
+ </div>
+</body>
+</html>
+{% endif %}

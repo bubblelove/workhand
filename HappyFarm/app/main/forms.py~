@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from flask.ext.wtf import Form
-from wtforms import StringField, TextAreaField, BooleanField, SelectField, SubmitField, TextField
+from wtforms import StringField, TextAreaField, BooleanField, SelectField, SubmitField, TextField, IntegerField
 from wtforms.validators import Required, Length, Email, Regexp, DataRequired
 from wtforms import ValidationError, SelectField, DateField, IntegerField
 from flask.ext.pagedown.fields import PageDownField
@@ -41,7 +41,7 @@ class StoreCommentForm(Form):
 	submit = SubmitField('Submit')
 
 class FeedbackForm(Form):
-	body = StringField(u'感谢您写下您的建议与反馈，我们将在1-2个工作日内处理', validators=[Required()])
+	body = StringField('', validators=[Required()])
 	submit = SubmitField('Submit')
 
 class SearchForm(Form):
@@ -52,3 +52,8 @@ class AddOrderForm(Form):
 	mounts = StringField(u'数量', validators=[Required()])
 	laterpay = BooleanField(u'稍后付款')
 	submit = SubmitField(u'提交')
+
+class MarkForm(Form):
+	body = StringField(u'评论', validators=[Required()])
+	mark = IntegerField(u'评分', validators=[Required()])
+	submit = SubmitField('Submit')

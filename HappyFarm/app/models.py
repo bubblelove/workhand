@@ -237,6 +237,7 @@ class Store(db.Model):
 	pic = db.Column(db.String(64))
 	price = db.Column(db.String(32))
 	introduce = db.Column(db.Text())
+	marks = db.Column(db.Integer)
 	comments = db.relationship('Comment', backref='store', lazy='dynamic')
 	bulid_since = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 	host_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -249,6 +250,7 @@ backref=db.backref('followed', lazy='joined'), lazy='dynamic', cascade='all, del
 
 
 whooshalchemy.whoosh_index(app, Store)
+
 
 class Comment(db.Model):
 	__tablename__ = 'comments'

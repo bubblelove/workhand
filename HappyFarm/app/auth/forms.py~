@@ -27,7 +27,7 @@ class LoginForm(Form):
 	phonenum = IntegerField(u'手机号', validators=[Required()])
 	password = PasswordField(u'密码', validators=[Required()])
 	remember_me = BooleanField(u'保持登录')
-	#verification_code = StringField(u'验证码', validators=[Required(), Length(4, 4, message=u'填写4位验证码')])	
+	verification_code = StringField(u'验证码', validators=[Required(), Length(4, 4, message=u'填写4位验证码')])	
 	submit = SubmitField(u'登录')
 
 class ChangePasswordForm(Form):

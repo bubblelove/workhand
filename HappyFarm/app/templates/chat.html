@@ -1,12 +1,12 @@
 {% import "bootstrap/wtf.html" as wtf %}
-{{ wtf.quick_form(form) }}
+留言:{{ wtf.quick_form(form) }}
 {{ ch.body1 }}
 {% if ch %}
-{{ ch.message.username }}
-{{ ch.contact.username }}
+留言用户：{{ ch.message.username }}
+卖家：{{ ch.contact.username }}
 {% endif %}
 {% if ch.body2 %}
-{{ ch.body2 }}
+留言内容：{{ ch.body2 }}
 {% else %}
 {% if current_user == ch.contact %}
 <a href="{{ url_for('main.reply', id=ch.message.id) }}">回复</a>

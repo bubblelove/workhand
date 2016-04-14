@@ -16,8 +16,7 @@
       <div class="content">
         <div class="log_in">
           <ul>
-            <li class="on">会员登录</li>
-            <li>动态密码登录</li>
+            <li class="on">用户登录</li>
           </ul>
           <div>
 <form action="" method="post" class="form" role="form">
@@ -36,6 +35,22 @@
             {{ form.password.label(class="control-label") | safe }}
             {{ form.password(class="form-control", required=True) }}
         </div>
+
+{% if form.errors.verification_code %}
+        <div class="form-group has-error required">
+            {{ form.verification_code.label(class="control-label") | safe }}
+            {{ form.verification_code(class="form-control", required=True) }}
+            {% for error in form.errors.verification_code %}
+                <p class="help-block">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="form-group">
+            {{ form.verification_code.label(class="control-label") | safe }}
+            {{ form.verification_code(class="form-control", required=True) }}
+            <label class="control-label"><img src="{{ url_for('static', filename='image/code/code.jpg') }}"></label>
+        </div>
+        {% endif %}
 
 	<div class="form-group required"><label style="vertical-align:middle"><input type="checkbox" class="remember_me" tabindex="4" name="remember_me" id="rememberme2" value="1"   style="vertical-align:middle"/>&nbsp;自动登录</label>
 	</div>

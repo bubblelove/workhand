@@ -88,7 +88,7 @@
 	float:right;
 	margin-top: 27px;
 }
-.main{
+.main_index{
 	width:80%;
 	height:auto;
 	margin:0 auto;
@@ -97,11 +97,46 @@
 .scroll_bar{
 	width:100%;
 	height:400px;
-	background-color: #cce8cf;
 }
-.scroll_image{
+.scroll_bar a:hover{
+	opacity: 0.8;
+}
+.scroll_bar .scroll_top{
+	width: 100%;
+	height:45%;
+}
+.scroll_bar .scroll_top img{
+	width: 100%;
+  height: 100%;
+	opacity: 1;
+	border: 1px solid white;
+	border-radius: 10px;
+}
+.scroll_bar .scroll_bottom img{
+	width: 100%;
+  height: 100%;
+	opacity: 1;
+	border: 1px solid white;
+	border-radius: 10px;
 
-	height:400px;
+}
+.scroll_bar  .s1{
+	width:23.7%;
+	height: 100%;
+
+	float: left;
+}
+.scroll_bar  .s2,.s3{
+	width:23.7%;
+	height: 100%;
+	margin-left: 16px;
+	float: left;
+}
+.scroll_bar .scroll_bottom{
+	width: 100%;
+	height:45%;
+	margin-top:20px;
+
 }
 .purchase_form{
 	width:100%;
@@ -115,13 +150,10 @@
 	margin-top: 15px;
 }
 .purchase_form .form2 .p1{
-	width:32%;
+	width:31%;
 	height:100%;
-	margin-left: 10px;
-	background-color:  #cce8cf;
+	margin-left: 20px;
 	float: left;
-	margin-right:10px;
-	margin-top:10px;
 }
 .pic1{
 	width:100%;

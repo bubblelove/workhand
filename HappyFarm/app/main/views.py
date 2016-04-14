@@ -5,9 +5,9 @@ from flask import render_template, redirect, url_for, abort, flash, request,\
 from flask.ext.login import login_required, current_user
 from flask.ext.sqlalchemy import get_debug_queries
 from . import main
-from .forms import EditProfileForm, AddShippingForm, SettleForm, StoreCommentForm, FeedbackForm, SearchForm, AddOrderForm
+from .forms import EditProfileForm, AddShippingForm, SettleForm, StoreCommentForm, FeedbackForm, SearchForm, AddOrderForm, MarkForm
 from .. import db
-from ..models import Permission, Role, User, Store, Comment, Feedback, Order, BB, Chat
+from ..models import Permission, Role, User, Store, Feedback, Order, BB, Chat, Comment
 from ..decorators import admin_required, permission_required
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -263,12 +263,14 @@ def moderate_disable(id):
 @login_required
 def bbs():
 	form = StoreCommentForm()
-	bbs = BB.query.all()
+	page = request.args.get('page', 1, type=int)
+	pagination = BB.query.order_by(BB.timestamp.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+	bb = pagination.items
 	if form.validate_on_submit():
 		b = BB(body=form.body.data, writer=current_user._get_current_object())
 		db.session.add(b)
 		return redirect(url_for('main.bbs'))
-	return render_template('bbs.html', bbs=bbs, form=form)
+	return render_template('bbs.html', bbs=bbs, form=form, titile="bbs", endpoint='.bbs', pagination=pagination, bb=bb)
 
 @main.route('/complete/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -279,10 +281,11 @@ def complete(id):
 	order.complete = True
 	db.session.add(order)
 	db.session.commit()
-	form = StoreCommentForm()
+	form = MarkForm()
 	if form.validate_on_submit():
 		comment = Comment(body=form.body.data, author=current_user._get_current_object(), store=store)
-		db.session.add(comment)
+		store.marks = form.mark.data
+		db.session.add(comment, store)
 		return redirect(url_for('main.store', id=storeid))
 	return render_template('comment.html', form=form)
 

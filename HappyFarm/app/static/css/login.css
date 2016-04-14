@@ -57,7 +57,7 @@
 	border:1px solid #43b413;
 	border-bottom:none;
 	display: inline-block;
-	width:160px;
+	width:500px;
 	text-align:center;
 }
 .log_in ul li .on{
@@ -65,11 +65,14 @@
 	border-bottom:2px solid green;
 }
 .log_in div{
-	height:90px;
+	height:80px;
 	line-height: 25px;
 	border:1px solid #336699;
 	border-top:none;
 	padding:5px;
+}
+.form-group img{
+height:30px;
 }
 .hide{
 	display: none;

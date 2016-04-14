@@ -27,11 +27,11 @@ class LoginForm(Form):
 	phonenum = IntegerField(u'手机号', validators=[Required()])
 	password = PasswordField(u'密码', validators=[Required()])
 	remember_me = BooleanField(u'保持登录')
-	#verification_code = StringField(u'验证码', validators=[Required(), Length(4, 4, message=u'填写4位验证码')])	
+	verification_code = StringField(u'验证码', validators=[Required(), Length(4, 4, message=u'填写4位验证码')])	
 	submit = SubmitField(u'登录')
 
 class ChangePasswordForm(Form):
-	old_password = PasswordField('Old password', validators=[Required()])
-	password = PasswordField('New password', validators=[Required(), EqualTo('password2', message='passwords must match')])
-	password2 = PasswordField('Confirm new password', validators=[Required()])
-	submit = SubmitField('Update Password')
+	old_password = PasswordField(u'旧密码', validators=[Required()])
+	password = PasswordField(u'新密码', validators=[Required(), EqualTo('password2', message=u'两次输入不一致')])
+	password2 = PasswordField(u'再输一次', validators=[Required()])
+	submit = SubmitField(u'提交')

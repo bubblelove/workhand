@@ -1,26 +1,51 @@
-{% extends "bootstrap/base.html" %}
-{% block content %}
-{% block page_content %}
+<!DOCTYPE html>
+<html>
+ <head>
+   <link href="../static/images/icon.ico" rel="shortcut icon" /><!--title小图标-->
+   <title>农家乐_个人资料_旅游网</title>
+   <meta charset="utf-8" />
+   <link href="../static/css/user.css" rel="stylesheet" type="text/css" />
+<script src="moment.js"></script> <script> moment().format(); </script> 
+ </head>
+ <body>
+ <div id="wrap">
+  <div class="header">
+    <a href="{{ url_for('main.index') }}"><img src="../static/images/logo.jpg.jpg" /></a>
+  
+  </div>
+  <div class="main">
+  <div class="above">
+    <div class="left">
+      <div class="userpic">
+      </div>
+      <ul>
 {% if user == current_user %}
 {% if user.bussiness %}
 {% for store in stores %}
-<a class="btn btn-default" href="{{ url_for('main.store', id=store.id) }}">我的店铺{{ store.name }}</a>
+        <li><a class="btn btn-default" href="{{ url_for('main.store', id=store.id) }}">我的店铺{{ store.name }}</a></li>
 {% endfor %}
 {% else %}
-<a class="btn btn-default" href="{{ url_for('main.settle') }}">商家入驻</a>
+        <li><a class="btn btn-default" href="{{ url_for('main.settle') }}">商家入驻</a>
+{% endif %}</li>
+        <li><a class="btn btn-default" href="{{ url_for('main.edit_profile') }}">编辑资料</a></li>
+        <li><a class="btn btn-default" href="{{ url_for('auth.change_password') }}">修改密码</a></li>
+        <li><a class="btn btn-default" href="{{ url_for('main.safe') }}">账户安全</a></li>
+        <li><a class="btn btn-default" href="{{ url_for('main.shipping') }}">配送地址</a></li>
+        <li><a class="btn btn-default" href="{{ url_for('main.myorder') }}">我的订单</a></li>
+	<li><a class="btn btn-default" href="{{ url_for('main.keep', id=user.id) }}">我的收藏</a></li>
 {% endif %}
-<a class="btn btn-default" href="{{ url_for('main.edit_profile') }}">编辑资料</a>
-<a class="btn btn-default" href="{{ url_for('auth.change_password') }}">修改密码</a>
-<a class="btn btn-default" href="{{ url_for('main.safe') }}">账户安全</a>
-<a class="btn btn-default" href="{{ url_for('main.shipping') }}">配送地址</a>
-<a class="btn btn-default" href="{{ url_for('main.myorder') }}">我的订单</a>
-<a class="btn btn-default" href="{{ url_for('main.keep', id=user.id) }}">我的收藏</a>
+      </ul>
+    </div>
+    <div class="right">
+      <h2>我的中心</h2>
+      <div>
+<h1>用户名:{{ user.username }}</h1>
+{% if head %}
+<img src="{{ url_for('static', filename='upload/%s' %head) }}" height="80" width="80"> 
+{% else %}
+<img src="../static/images/user1.png" height="80" width="80"> 
 {% endif %}
-<div class="page-header">
-       <div class="profile-header">
-	<img src="{{ url_for('static', filename='upload/%s' %head) }}" height="80" width="80"> 
-        <h1>{{ user.username }}</h1>
-	<p>{{ user.phonenum }}</p>
+	<p>手机号:{{ user.phonenum }}</p>
         {% if user.realname or user.location %}
         <p>
             {% if user.realname %}{{ user.realname }}<br>{% endif %}
@@ -33,15 +58,18 @@
         <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
         {% endif %}
         {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-        <p>Member since {{ moment(user.member_since).format('L') }}.</p>
+        <p>Member since {{ user.member_since }}.</p>
 	<p>性别:{{ user.sex }}</p>
 	<p>生日:{{ user.birthday}}</p>
-{% endblock %}
-{% endblock %}
-
-{% block scripts %}
-{{ super() }}
-{{ moment.include_moment() }}
-{% endblock %}
-
-
+      </div>
+    </div>
+    <div class="footer">
+24小时客户服务电话：400-845-345 <br />
+				<a href="{{ url_for('main.about') }}" target="_blank">关于我们</a> | <a href="{{ url_for('main.contact') }}" target="_blank">联系我们</a> | <a href="{{ url_for('main.protocal') }}" target="_blank">用户协议</a> | <a href="{{ url_for('main.feedback') }}" target="_blank">用户反馈</a><br />
+				Copyright &copy 2016-2020 <a href="{{ url_for('main.index') }}" target="_blank">农家乐旅游网</a> 东旭工作室
+	    </div>
+  </div>
+  </div>
+ </div>
+</body>
+</html>

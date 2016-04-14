@@ -1,0 +1,41 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "bootstrap/base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block head %}{{ super() }}<link rel="stylesheet" type="text/css" href="../static/css/bbs.css" />{% endblock %}
+{% block content%}
+{% block page_content %}
+ {% for b in bb %}
+<div class="whole">
+<div class="left">
+	<p>
+		<img src="{{ url_for('static', filename='upload/%s' %b.writer.head) }}" height="80" width="80"> 
+	</p>
+
+	<p>
+		<h3>{{ b.writer.username }}</h3>
+	<p>
+</div>
+<div class="right">
+	<p>
+		{{ b.body }}
+	</p>
+        <p>{{ moment(b.timestamp).format('L') }}</p>
+</div>
+</div>
+{% endfor %}
+<table class="table table-hover followers">
+{% if current_user %}
+{{ wtf.quick_form(form) }}
+{% endif %}
+</table>
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, endpoint) }}
+</div>
+{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}

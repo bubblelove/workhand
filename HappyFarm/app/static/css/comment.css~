@@ -1,0 +1,21 @@
+*{margin:0;padding:0;font-size:13px;}  
+
+ul,li{list-style:none;}  
+
+.star {position:relative;width:600px;height:24px; margin:20px auto 0;}  
+
+.star span {float:left;height:19px;line-height:19px;}  
+
+.star ul{margin:0 10px;}  
+
+.star li{float:left;width:24px;height:22px;text-indent:-9999px;background:url('star.png') no-repeat;cursor:pointer;}  
+
+.star li.on{background-position:0 -28px;}  
+
+.star p {padding:10px 10px 0;position:absolute;top:20px;width:159px;height:60px;z-index:100;}  
+
+.star p em {color: #FF6600;display: block;font-style: normal;}  
+
+.star strong {color:#ff6600;padding-left:10px;}  
+
+.hidden{display:none;} 
