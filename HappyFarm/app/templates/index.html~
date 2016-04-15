@@ -36,15 +36,15 @@
 			<div class="main_index">
 					<div class="scroll_bar">
 	<!-- 滚动  -->				<div class="scroll_top">
-							<div class="s1"><a href="#"><img src="../static/images/1.jpg"></a></div>
-							<div class="s2"><a><img src="../static/images/2.png"></a></div>
-							<div class="s2"><a><img src="../static/images/3.jpg"></a></div>
-							<div class="s3"><a><img src="../static/images/4.jpg"></a></div>
+							<div class="s1"><a href="{{ url_for('main.store', id=1) }}"><img src="../static/images/1.jpg"></a></div>
+							<div class="s2"><a href="{{ url_for('main.store', id=2) }}"><img src="../static/images/2.png"></a></div>
+							<div class="s2"><a href="{{ url_for('main.store', id=3) }}"><img src="../static/images/3.jpg"></a></div>
+							<div class="s3"><a href="{{ url_for('main.store', id=4) }}"><img src="../static/images/4.jpg"></a></div>
 						</div>
 						<div class="scroll_bottom">
-							<div class="s1"><a><img src="../static/images/5.jpg"></a></div>
-							<div class="s2"><a><img src="../static/images/6.jpg"></a></div>
-							<div class="s2"><a><img src="../static/images/7.jpg"></a></div>
+							<div class="s1"><a href="{{ url_for('main.store', id=5) }}"><img src="../static/images/5.jpg"></a></div>
+							<div class="s2"><a href="{{ url_for('main.store', id=6) }}"><img src="../static/images/6.jpg"></a></div>
+							<div class="s2"><a href="{{ url_for('main.store', id=7) }}"><img src="../static/images/7.jpg"></a></div>
 							<div class="s3"><a><img src="../static/images/8.jpg"></a></div>
 						</div>
 					</div>
@@ -66,7 +66,7 @@
 			</div>
 			<div class="footer">
 24小时客户服务电话：400-845-345 <br />
-				<a href="{{ url_for('main.about') }}" target="_blank">关于我们</a> | <a href="{{ url_for('main.contact') }}" target="_blank">联系我们</a> | <a href="{{ url_for('main.protoca') }}" target="_blank">用户协议</a> | <a href="{{ url_for('main.feedback') }}" target="_blank">用户反馈</a><br />
+				<a href="{{ url_for('main.about') }}" target="_blank">关于我们</a> | <a href="{{ url_for('main.contact') }}" target="_blank">联系我们</a> | <a href="{{ url_for('main.protocal') }}" target="_blank">用户协议</a> | <a href="{{ url_for('main.feedback') }}" target="_blank">用户反馈</a><br />
 				Copyright &copy 2016-2020 <a href="{{ url_for('main.index') }}" target="_blank">农家乐旅游网</a> 东旭工作室
 	    {% if pagination %}
 <div class="pagination">

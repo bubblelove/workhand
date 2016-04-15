@@ -5,12 +5,12 @@ float:left;
 }
 .left{
 width:30%;
-height:200px;
+height:150px;
 float:left;
 }
 .right{
 width:70%;
-height:200px;
+height:150px;
 float:left;
 }
 .right .l{

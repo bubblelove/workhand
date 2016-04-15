@@ -1,6 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+ <link href="../static/images/icon.ico" rel="shortcut icon" /><!--title小图标-->
+<link href="../static/css/user.css" rel="stylesheet" type="text/css" />
+<style>  
+.change{
+width:100%;
+height:300px;
+margin-left:300px;
+margin-top:20px;
+}
+.editform{
+
+}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div class="header">
+    <a href="{{ url_for('main.index') }}"><img src="../static/images/logo.jpg.jpg" /></a>
+  </div>  
+</div>
+<div>
 {% if current_user %}
 {% for order in orders %}
 	<div><span><h3>订单编号:{{ order.id }}</h3></span>
+	<span><h3>店铺:{{ order.seller.name }}</h3></span>
+	<span><h3>下单时间:{{ order.timestamp }}</h3></span>
 	<span><h4>预定数量:{{ order.mounts }}</h4></span>
 	<span><h4>买家编号:{{ order.buyer_id }}</h4></span>
 	{% if order.laterpay %}
@@ -11,3 +38,6 @@
 	<a href="{{ url_for('main.delete', id=order.id) }}">删除订单</a></div>
 {% endfor %}
 {% endif %}
+</div>
+</body>
+</html>

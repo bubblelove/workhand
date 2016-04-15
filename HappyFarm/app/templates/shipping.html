@@ -3,6 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <link href="../static/images/icon.ico" rel="shortcut icon" /><!--title小图标-->
+<link href="../static/css/user.css" rel="stylesheet" type="text/css" />
 <title>配送地址</title>
 <style type="text/css"> </style> 
 <script type="text/javascript">
@@ -14,6 +16,11 @@ document.getElementById("t").style.display="block";
 </head>
 
 <body>
+<div id="wrap">
+  <div class="header">
+    <a href="{{ url_for('main.index') }}"><img src="../static/images/logo.jpg.jpg" /></a>
+  </div>  
+</div>
 <label>
 <input type="button" name="add" value="添加配送地址" onclick="show()"/>
 </label>

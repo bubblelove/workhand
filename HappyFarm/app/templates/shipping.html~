@@ -22,6 +22,6 @@ document.getElementById("t").style.display="block";
 </div>
 <div>
 {% if current_user.shippingadd %}
-<p>{{ current_user.shippingadd }}</p>
+<p>配送地址：{{ current_user.shippingadd }}</p>
 {% endif %}
 </div>

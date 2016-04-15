@@ -153,7 +153,6 @@
 	width:31%;
 	height:100%;
 	margin-left: 20px;
-	background-color:  #cce8cf;
 	float: left;
 }
 .pic1{
@@ -176,7 +175,7 @@
 .footer{
 	width:100%;
 	height:auto;
-	margin-top:20px;
+	margin-top:430px;
 	margin-bottom:20px;
 	text-align:center;
 	font-size:12px;

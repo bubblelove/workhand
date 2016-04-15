@@ -1,9 +1,22 @@
 {% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../static/css/chat.css" />
+</head>
+<body>
+<div class="forms">
 留言:{{ wtf.quick_form(form) }}
-{{ ch.body1 }}
+</div>
+<div class="leave">
+<div class="content">
+<h3>{{ ch.body1 }}</h3>
+</div>
+<div class="user">
 {% if ch %}
-留言用户：{{ ch.message.username }}
-卖家：{{ ch.contact.username }}
+<i>留言用户</i>：{{ ch.message.username }}
+<i>卖家</i>：{{ ch.contact.username }}
 {% endif %}
 {% if ch.body2 %}
 留言内容：{{ ch.body2 }}
@@ -12,4 +25,7 @@
 <a href="{{ url_for('main.reply', id=ch.message.id) }}">回复</a>
 {% endif %}
 {% endif %}
-
+</div>
+</div>
+</body>
+</html>
